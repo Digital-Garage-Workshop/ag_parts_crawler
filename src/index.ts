@@ -1,9 +1,10 @@
-import { writeFile } from "fs/promises";
 import produce from "immer";
 import minimist from "minimist";
 import { chromium } from "playwright";
 
 import type { ICategory, ISubCategory } from "types";
+import { generateCSV } from "./generate_csv.js";
+import { generateJSON } from "./generate_json.js";
 import { getCategories } from "./get_categories.js";
 import { getParts } from "./get_parts.js";
 import { getSubCategories } from "./get_subcategories.js";
@@ -15,7 +16,6 @@ export interface IArgs {
 }
 
 export const baseUrl = "https://toyodiy.com";
-// export const vin = "TRJ120W-GGPEK";
 const main = async () => {
   const { headless, vin } = minimist(process.argv.slice(2)) as IArgs;
   if (typeof vin !== "string") {
@@ -58,7 +58,6 @@ const main = async () => {
           }/${subCategories.length}`
         );
         const parts = await getParts(page, subCategory.href);
-
         data = produce(data, (draft) => {
           draft[category.name].children[subCategory.name].children = parts;
         });
@@ -69,17 +68,9 @@ const main = async () => {
   } catch (error) {
     throw error;
   } finally {
-    const now = new Date();
-    const date = `${now.getFullYear()}-${(now.getMonth() + 1)
-      .toString()
-      .padStart(2, "0")}-${now.getDate().toString().padStart(2, "0")}T${now
-      .getHours()
-      .toString()
-      .padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}:${now
-      .getSeconds()
-      .toString()
-      .padStart(2, "0")}`;
-    await writeFile(`./${vin}#${date}.json`, JSON.stringify(data));
+    await generateCSV(data, vin);
+    await generateJSON(data, vin);
+
     await browser.close();
   }
 };

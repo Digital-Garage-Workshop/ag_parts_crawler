@@ -8,19 +8,28 @@ export const getParts = async (page: Page, category: string) => {
   await page.goto(`${baseUrl}/parts/${category}`);
   await navigationPromise;
 
-  return await page.$$eval(".h", (parts) => {
-    return parts
-      .map((part) => {
-        const code = part.querySelector("td:nth-child(1)")?.textContent;
-        const name = part.querySelector("td:nth-child(2)")?.textContent;
+  const parts: IPart[] = [];
+  for (const item of await page.locator(".h >> xpath=..").all()) {
+    const [header, ...children] = await item.getByRole("row").all();
+    const [code, name] = await header.getByRole("cell").all();
 
-        return {
-          code,
-          name,
-        };
-      })
-      .filter(
-        ({ code, name }) => typeof code === "string" && typeof name === "string"
-      ) as IPart[];
-  });
+    const part: IPart = {
+      code: (await code.textContent()) ?? "",
+      name: (await name.textContent()) ?? "",
+      children: await Promise.all(
+        children.map(async (child) => {
+          const [code, name] = await child.getByRole("cell").all();
+
+          return {
+            code: (await code.textContent()) ?? "",
+            name: (await name.textContent()) ?? "",
+          };
+        })
+      ),
+    };
+
+    parts.push(part);
+  }
+
+  return parts;
 };

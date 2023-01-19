@@ -1,5 +1,6 @@
 import type { Page } from "playwright";
 
+import type { ICategory } from "types";
 import { baseUrl } from "./";
 
 export const getSubCategories = async (page: Page, category: string) => {
@@ -7,24 +8,21 @@ export const getSubCategories = async (page: Page, category: string) => {
   await page.goto(`${baseUrl}/parts/${category}`);
   await navigationPromise;
 
-  const subCategories: {
-    href: string;
-    name: string;
-  }[] = [];
+  const subCategories: Omit<ICategory, "children">[] = [];
 
-  for (const category of await page
+  for (const item of await page
     .locator("[id=page2]")
     .getByRole("link")
     .elementHandles()) {
-    const href = await category.getAttribute("href");
-    const name = await category.textContent();
+    const href = await item.getAttribute("href");
+    const name = await item.textContent();
 
-    if (href && name) {
-      subCategories.push({
-        href,
-        name,
-      });
-    }
+    const subCategory: Omit<ICategory, "children"> = {
+      href: href ?? "",
+      name: name ?? "",
+    };
+
+    subCategories.push(subCategory);
   }
 
   return subCategories;
