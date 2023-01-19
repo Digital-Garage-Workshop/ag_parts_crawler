@@ -1,8 +1,10 @@
 {
+  "name": "parts_crawler",
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "start": "node --experimental-specifier-resolution=node dist/index.js"
+    "start": "node --experimental-specifier-resolution=node dist/index.js",
+    "pkg": "pkg package.json"
   },
   "dependencies": {
     "immer": "^9.0.18",
@@ -13,5 +15,13 @@
     "@types/minimist": "^1.2.2",
     "@types/node": "^18.11.18",
     "typescript": "^4.9.4"
+  },
+  "bin": "./dist/index.js",
+  "pkg": {
+    "scripts": "dist/**/*.js",
+    "targets": [
+      "latest-win-x64"
+    ],
+    "outputPath": "dist"
   }
 }

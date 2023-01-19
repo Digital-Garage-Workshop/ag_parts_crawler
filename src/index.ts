@@ -3,25 +3,11 @@ import produce from "immer";
 import minimist from "minimist";
 import { chromium } from "playwright";
 
+import type { ICategory, ISubCategory } from "types";
 import { getCategories } from "./get_categories.js";
 import { getParts } from "./get_parts.js";
 import { getSubCategories } from "./get_subcategories.js";
 import { getVehicle } from "./get_vehicle.js";
-
-export interface ICategory<T = ISubCategory[]> {
-  href: string;
-  name: string;
-  children: T;
-}
-export interface ISubCategory<T = IPart[]> {
-  href: string;
-  name: string;
-  children: T;
-}
-export interface IPart {
-  code: string;
-  name: string;
-}
 
 export interface IArgs {
   headless?: string;
@@ -32,10 +18,8 @@ export const baseUrl = "https://toyodiy.com";
 // export const vin = "TRJ120W-GGPEK";
 const main = async () => {
   const { headless, vin } = minimist(process.argv.slice(2)) as IArgs;
-
   if (typeof vin !== "string") {
-    console.log("NO VIN");
-    return;
+    throw Error("NO VIN");
   }
 
   const browser = await chromium.launch({ headless: !(headless === "false") });
@@ -83,6 +67,7 @@ const main = async () => {
       }
     }
   } catch (error) {
+    throw error;
   } finally {
     const now = new Date();
     const date = `${now.getFullYear()}-${(now.getMonth() + 1)
@@ -95,11 +80,11 @@ const main = async () => {
       .toString()
       .padStart(2, "0")}`;
     await writeFile(`./${vin}#${date}.json`, JSON.stringify(data));
+    await browser.close();
   }
-
-  await page.waitForTimeout(5000);
-
-  await browser.close();
 };
-// npx playwright codegen https://www.toyodiy.com/parts/g_J_200408_TOYOTA_LAND+CRUISER+PRADO_TRJ120W-GGPEK.html
-main();
+
+main().catch((error) => {
+  const _error = error as Error;
+  console.log(_error.message);
+});

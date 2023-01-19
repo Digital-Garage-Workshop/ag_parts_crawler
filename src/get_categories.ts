@@ -1,6 +1,6 @@
 import type { Page } from "playwright";
 
-import type { ICategory } from "./";
+import type { ICategory } from "types";
 
 export const getCategories = async (page: Page, vehicle: string) => {
   const categories: ICategory[] = [];
