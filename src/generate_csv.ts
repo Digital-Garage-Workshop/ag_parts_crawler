@@ -8,29 +8,20 @@ export const generateCSV = async (
   data: Record<string, ICategory<Record<string, ISubCategory>>>,
   vin: string
 ) => {
-  const csv: string[] = ["CATEGORY,SUBCATEGORY,PART,CODE"];
+  const csv: string[] = ["VIN,CATEGORY,SUBCATEGORY,PARTCODE,PART,CODE"];
   for (const categoryName of Object.keys(data)) {
     const category = data[categoryName];
 
     for (const subCategoryName of Object.keys(category.children)) {
       const subCategory = category.children[subCategoryName];
-      const subCategoryIndex = Object.keys(category.children).indexOf(
-        subCategoryName
-      );
 
       for (const part of subCategory.children) {
+        const partCode = part.code;
         const partName = part.name;
-        const partIndex = subCategory.children.indexOf(part);
 
-        for (const [childIndex, { code }] of (part.children ?? []).entries()) {
+        for (const [_, { code }] of (part.children ?? []).entries()) {
           csv.push(
-            `${
-              subCategoryIndex === 0 && partIndex === 0 && childIndex === 0
-                ? `"${categoryName}"`
-                : ""
-            },${
-              partIndex === 0 && childIndex === 0 ? `"${subCategoryName}"` : ""
-            },${childIndex === 0 ? `"${partName}"` : ""},${`"${code}"`}`
+            `${vin},${`"${categoryName}"`},${`"${subCategoryName}"`},${partCode},${`"${partName}"`},${`"${code}"`}`
           );
         }
       }
