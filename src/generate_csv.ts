@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
 import { writeFile } from "fs/promises";
-import { join } from "path";
 
 import { ICategory, ISubCategory } from "types";
 
@@ -28,8 +27,8 @@ export const generateCSV = async (
     }
   }
 
-  const dirName = process.cwd();
-
-  const fileName = `./${vin}#${dayjs().format("YYYY-MM-DDTHH:mm:ss")}.csv`;
-  await writeFile(join(dirName, fileName), csv.join("\n"));
+  const fileName = `./files/${vin}#${dayjs().format(
+    "YYYY-MM-DDTHH_mm_ss"
+  )}.csv`;
+  await writeFile(fileName, csv.join("\n"));
 };

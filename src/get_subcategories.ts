@@ -1,7 +1,8 @@
 import type { Page } from "playwright";
 
 import type { ICategory } from "types";
-import { baseUrl } from "./";
+
+import { baseUrl } from "./config";
 
 export const getSubCategories = async (page: Page, category: string) => {
   const navigationPromise = page.waitForNavigation();

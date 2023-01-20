@@ -1,7 +1,8 @@
 import type { Page } from "playwright";
 
 import type { IPart } from "types";
-import { baseUrl } from "./";
+
+import { baseUrl } from "./config";
 
 export const getParts = async (page: Page, category: string) => {
   const navigationPromise = page.waitForNavigation();
