@@ -1,4 +1,4 @@
-import { ISubCategory } from "types";
+import { ISubCategory } from "./sub_category";
 
 export interface ICategory<T = ISubCategory[]> {
   href: string;

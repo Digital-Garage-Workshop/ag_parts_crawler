@@ -1,4 +1,4 @@
-import { IPart } from "types";
+import { IPart } from "./part";
 
 export interface ISubCategory<T = IPart[]> {
   href: string;

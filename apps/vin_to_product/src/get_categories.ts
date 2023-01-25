@@ -1,6 +1,6 @@
 import type { Page } from "playwright";
 
-import type { ICategory } from "types";
+import type { ICategory } from "@ag-crawler/types";
 
 export const getCategories = async (page: Page, vehicle: string) => {
   const categories: Omit<ICategory, "children">[] = [];

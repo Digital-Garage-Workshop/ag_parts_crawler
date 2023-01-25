@@ -1,14 +1,14 @@
 import type { Page } from "playwright";
 import produce from "immer";
 
-import type { ICategory, ISubCategory } from "types";
+import type { ICategory, ISubCategory } from "@ag-crawler/types";
 
 import { baseUrl, timeout } from "./config";
-import { generateCSV } from "./generate_csv.js";
-import { generateJSON } from "./generate_json.js";
-import { getCategories } from "./get_categories.js";
-import { getParts } from "./get_parts.js";
-import { getSubCategories } from "./get_subcategories.js";
+import { generateCSV } from "./generate_csv";
+import { generateJSON } from "./generate_json";
+import { getCategories } from "./get_categories";
+import { getParts } from "./get_parts";
+import { getSubCategories } from "./get_subcategories";
 
 export const getVehicle = async (
   page: Page,
@@ -36,10 +36,14 @@ export const getVehicle = async (
         }
       }
     }
+    if ((await page.getByText("No records found").count()) > 0) {
+      return;
+    }
 
-    const navigationPromise = page.waitForNavigation();
     await page.getByRole("link", { name: vin }).click();
-    await navigationPromise;
+    await page.waitForURL((url) =>
+      url.href.endsWith(`${vin.toUpperCase()}.html`)
+    );
 
     //
     const categories = await getCategories(page, page.url());
@@ -84,7 +88,9 @@ export const getVehicle = async (
   } catch (error) {
     throw error;
   } finally {
-    await generateCSV(data, vin);
-    await generateJSON(data, vin);
+    if (Object.keys(data).length > 0) {
+      await generateCSV(data, vin);
+      await generateJSON(data, vin);
+    }
   }
 };

@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { writeFile } from "fs/promises";
 
-import { ICategory, ISubCategory } from "types";
+import { ICategory, ISubCategory } from "@ag-crawler/types";
 
 export const generateCSV = async (
   data: Record<string, ICategory<Record<string, ISubCategory>>>,

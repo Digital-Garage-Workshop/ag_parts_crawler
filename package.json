@@ -1,28 +1,15 @@
 {
-  "name": "parts_crawler",
-  "type": "module",
+  "name": "garage_crawler",
+  "private": "true",
   "scripts": {
-    "build": "tsc",
-    "start": "node --experimental-specifier-resolution=node dist/index.js",
-    "pkg": "pkg package.json"
+    "product": "pnpm --filter product_to_engine ts-node",
+    "vin": "pnpm --filter vin_to_product ts-node"
   },
   "dependencies": {
-    "dayjs": "^1.11.7",
-    "immer": "^9.0.18",
-    "minimist": "^1.2.7",
-    "playwright": "^1.29.2"
+    "ts-node": "^10.9.1"
   },
   "devDependencies": {
-    "@types/minimist": "^1.2.2",
     "@types/node": "^18.11.18",
     "typescript": "^4.9.4"
-  },
-  "bin": "./dist/index.js",
-  "pkg": {
-    "scripts": "dist/**/*.js",
-    "targets": [
-      "latest-win-x64"
-    ],
-    "outputPath": "dist"
   }
 }

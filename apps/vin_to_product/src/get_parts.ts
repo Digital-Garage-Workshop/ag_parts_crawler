@@ -1,6 +1,6 @@
 import type { Page } from "playwright";
 
-import type { IPart } from "types";
+import type { IPart } from "@ag-crawler/types";
 
 import { baseUrl } from "./config";
 
