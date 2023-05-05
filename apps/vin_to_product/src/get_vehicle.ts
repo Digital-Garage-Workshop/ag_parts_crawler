@@ -1,5 +1,5 @@
 import type { Page } from "playwright";
-import produce from "immer";
+import { produce } from "immer";
 
 import type { ICategory, ISubCategory } from "@ag-crawler/types";
 
