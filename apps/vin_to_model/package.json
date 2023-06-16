@@ -1,5 +1,5 @@
 {
-  "name": "product_to_engine",
+  "name": "vin_to_model",
   "type": "module",
   "scripts": {
     "predev": "tsc",
@@ -14,7 +14,6 @@
     "playwright": "^1.35.1"
   },
   "devDependencies": {
-    "@ag-crawler/types": "workspace:*",
     "@types/minimist": "^1.2.2",
     "@types/node": "^20.3.1",
     "typescript": "^5.1.3"

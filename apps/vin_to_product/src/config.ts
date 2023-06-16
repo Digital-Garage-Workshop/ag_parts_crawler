@@ -1,9 +1,26 @@
 export const baseUrl = "https://toyodiy.com";
-export const timeout: number = 1000;
-
+export const timeout: number = 500;
 export const vehicles: string[] = [
-  "NHW20-AHEGB",
-  "ZVW51-AHXBB",
-  "KUN25L-PRMDHV",
-  "TRJ120W-GGPEK",
+  "MHU48L-BRXMKA",
+  "ACA21W-AWPNH",
+  "ACA31W-AWXSK",
+  "ZSA42L-ANYGKX",
+  "NZT240-CEPEK",
+  "ZZT240-CEPEK",
+  "NZT260-CEXEK",
+  "ATH10W-PFXGB",
+  "ANH20W-PRXQK",
+  "ATH20W-PFXQB",
+  "NCP110-AHXDK",
+  "NCP60-HHPNK",
+  "NCP55V-EXPDK",
+  "GGL10L-AWTGKA",
+  "GGL15L-AWTGKA",
+  "GYL10L-AWXGKA",
+  "GYL15L-AWXGKA",
+  "UZJ100L-GNAGKA",
+  "URJ201L-GNTGKA",
+  "GWL10-BEXQB",
+  "GWS191L-BEXQHA",
+  "ANF10-AEXVB",
 ];
