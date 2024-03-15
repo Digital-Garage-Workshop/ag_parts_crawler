@@ -1,0 +1,20 @@
+{
+  "name": "vin_to_characteristics_toyota",
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "@ag-crawler/utils": "workspace:*",
+    "dayjs": "^1.11.10",
+    "immer": "^10.0.4",
+    "minimist": "^1.2.8",
+    "playwright": "^1.42.1"
+  },
+  "devDependencies": {
+    "@ag-crawler/types": "workspace:*",
+    "@types/minimist": "^1.2.5",
+    "@types/node": "^20.11.28",
+    "typescript": "^5.4.2"
+  }
+}

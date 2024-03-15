@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { existsSync, mkdirSync } from "fs";
 import { writeFile } from "fs/promises";
 
 import { ICategory, ISubCategory } from "@ag-crawler/types";
@@ -30,5 +31,8 @@ export const generateCSV = async (
   const fileName = `./files/${vin}#${dayjs().format(
     "YYYY-MM-DDTHH_mm_ss"
   )}.csv`;
+  if (!existsSync("./files")) {
+    mkdirSync("./files");
+  }
   await writeFile(fileName, csv.join("\n"));
 };
